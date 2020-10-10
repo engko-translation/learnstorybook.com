@@ -2,7 +2,7 @@
 title: '이해관계자를 위한 문서'
 tocTitle: '문서'
 description: '문서화를 통하여 디자인 시스템 도입을 촉진하기'
-commit: a032b50
+commit: 5bc45fb
 ---
 
 [전문적인](https://product.hubspot.com/blog/how-to-gain-widespread-adoption-of-your-design-system) [프론트엔드](https://segment.com/blog/driving-adoption-of-a-design-system/) [팀](https://medium.com/@didoo/measuring-the-impact-of-a-design-system-7f925af090f7)은 디자인 시스템이 얼마나 채택되었는지를 성공의 척도로 삼고 있습니다. 디자인 시스템 사용을 통한 개발 비용 절감이라는 이점을 완벽하게 누리기 위해서는 컴포넌트가 널리 사용되어야만 합니다. 그렇지 않다면, 이게 다 무슨 소용일까요?
@@ -37,38 +37,16 @@ UI를 공동으로 개발하는 작업환경에서 문서화가 매우 ​​중
 
 스토리북 Docs 애드온을 사용하면 기존 스토리를 기반으로 문서를 생성하여 유지 관리 시간을 줄이고 유용한 기본 설정을 얻을 수 있습니다. 먼저 디자인 시스템 디렉터리로 이동한 다음 docs 애드온을 설치합니다.
 
-```bash
-yarn add --dev @storybook/addon-docs
-```
+스토리북 Docs 애드온을 사용하면 기존 스토리에서 기본 설정을 가져와서 유지 관리 시간을 절감할 수 있는 풍부한 문서를 생성할 수 있습니다.
+[빌드](/react/ko/build/)챕터(Controls 및 Actions)에서 다룬 애드온들과 마찬가지로 Docs 애드온도 각 스토리북 설치에 포함하고 설정될 수 있으므로 좋은 문서를 작성하는 데에만 집중할 수 있습니다.
 
-애드온 목록을 `.storybook/main.js`에 추가합니다.
+스토리 북을 열 때마다 두 개의 탭이 표시됩니다.
+- 🖼️ "Canvas" 탭은 컴포넌트 개발 환경입니다.
+- 📝 "Docs" 탭은 컴포넌트 문서를 보여줍니다.
 
-```javascript
-// .storybook/main.js
+![스토리북 문서 탭](/design-systems-for-developers/storybook-docs-6-0.png)
 
-module.exports = {
-  stories: ['../src/**/*.stories.js'],
-  addons: [
-    '@storybook/preset-create-react-app',
-    '@storybook/addon-actions',
-    '@storybook/addon-links',
-    '@storybook/addon-storysource',
-    '@storybook/addon-knobs',
-    {
-      name: '@storybook/addon-docs',
-      options: {
-        configureJSX: true,
-      },
-    },
-  ],
-};
-```
-
-스토리북에 두 개의 탭이 표시되어야 합니다. "Canvas" 탭은 컴포넌트 개발 환경입니다. "Docs" 탭은 컴포넌트 문서를 보여줍니다.
-
-![스토리북 문서 탭](/design-systems-for-developers/storybook-docs.png)
-
-스토리북 Docs 애드온은 각 컴포넌트에 대한 새로운 "Docs" 탭을 만들었습니다. 그리고 탭 내부를 대화식 미리 보기, 소스 코드 뷰어 및 props 테이블과 같이 자주 사용되는 내용으로 구성하였습니다. Shopify 및 Auth0의 디자인 시스템 문서에서 유사한 기능을 찾을 수 있습니다. 모두 5분 이내에 완료됩니다.
+스토리북 Docs 애드온은 각 컴포넌트에 대한 새로운 "Docs" 탭을 만들었습니다. 그리고 탭 내부를 대화식 미리 보기, 소스 코드 뷰어 및 인자 테이블과 같이 자주 사용되는 내용으로 구성하였습니다. Shopify 및 Auth0의 디자인 시스템 문서에서 유사한 기능을 찾을 수 있습니다. 모두 2분 이내에 완료됩니다.
 
 ## 문서 확장
 
@@ -80,19 +58,18 @@ module.exports = {
 // src/Avatar.stories.js
 
 export default {
-  title: 'Design System|Avatar',
-
+  title: 'Design System/Avatar',
+  component: Avatar,
   parameters: {
-    component: Avatar,
     componentSubtitle: '사용자 또는 조직을 나타내는 이미지를 표시합니다.',
   },
 };
 ```
 
-다음으로는 Avatar 컴포넌트 (`src/components/Avatar.js`에 위치)에 대한 설명을 제공하는 JSdoc를 추가합니다.
+다음으로는 Avatar 컴포넌트 (`src/Avatar.js`에 위치)에 대한 설명을 제공하는 JSdoc를 추가합니다.
 
 ```javascript
-// src/components/Avatar.js
+// src/Avatar.js
 
 /**
 - Avatar를 사용하여 특정 사용자에게 액션이나 콘텐츠를 제공합니다.
@@ -104,9 +81,9 @@ export function Avatar({ loading, user name, src, size, ... props }) {
 
 이제 다음을 확인할 수 있습니다.:
 
-![컴포넌트 세부 정보가 있는 스토리북 문서 탭](/design-systems-for-developers/storybook-docspage.png)
+![컴포넌트 세부 정보가 있는 스토리북 문서 탭](/design-systems-for-developers/storybook-docspage-6-0.png)
 
-스토리북 Docs에 스토리 종류와 기본값을 보여주는 props 테이블이 자동으로 생성되었습니다. 이 방식은 편리하지만, Avatar가 완벽하게 구현되었다는 것을 의미하는 것은 아닙니다. 몇몇 props를 오용할 가능성이 있습니다. 자동 생성된 prop 테이블에서 Avatar를 렌더링하려면 프로토타입 내부에 을 추가하면 됩니다.
+스토리북 Docs에 스토리 종류와 기본값을 보여주는 인자 테이블이 자동으로 생성되었습니다. 이 방식은 편리하지만, Avatar가 완벽하게 구현되었다는 것을 의미하는 것은 아닙니다. 몇몇 인자들(props)을 오용할 가능성이 있습니다. 자동 생성된 prop 테이블에서 Avatar를 렌더링하려면 프로토타입 내부에 을 추가하면 됩니다.
 
 ```javascript
 // src/components/Avatar.js
@@ -137,36 +114,34 @@ Avatar.propTypes = {
 ```javascript
 // src/Avatar.stories.js
 
-export const sizes = () => (
+export const Sizes = args => (
   <div>
-    <Avatar
-      size="large"
-      username="Tom Coleman"
-      src="https://avatars2.githubusercontent.com/u/132554"
-    />
-    <Avatar
-      size="medium"
-      username="Tom Coleman"
-      src="https://avatars2.githubusercontent.com/u/132554"
-    />
-    <Avatar
-      size="small"
-      username="Tom Coleman"
-      src="https://avatars2.githubusercontent.com/u/132554"
-    />
-    <Avatar
-      size="tiny"
-      username="Tom Coleman"
-      src="https://avatars2.githubusercontent.com/u/132554"
-    />
+    <Avatar {...args} size="large" />
+    <Avatar {...args} size="medium" />
+    <Avatar {...args} size="small" />
+    <Avatar {...args} size="tiny" />
   </div>
 );
-sizes.story = {
-  parameters: { docs: { storyDescription: '4 sizes are supported.' } },
+
+Sizes.args = {
+  username: 'Tom Coleman',
+  src: 'https://avatars2.githubusercontent.com/u/132554',
+};
+
+Sizes.parameters = {
+  docs: {
+    // 스토리는 이제 설명을 포함합니다.
+    storyDescription: '4 sizes are supported.',
+  },
 };
 ```
 
-![세부 정보가 채워진 스토리북의 docs 탭](/design-systems-for-developers/storybook-docspage-expanded.png)
+<video autoPlay muted playsInline loop>
+  <source
+    src="/design-systems-for-developers/storybook-docspage-expanded-6-0.mp4"
+    type="video/mp4"
+  />
+</video>
 
 #### Markdown/MDX를 사용한 Supercharge 문서화
 
@@ -174,7 +149,7 @@ sizes.story = {
 
 Markdown은 텍스트 작성을 위한 직관적인 서식입니다. MDX를 사용하면 Markdown 내에서 대화형 코드 (JSX)를 사용할 수 있습니다. 스토리북 Docs는 MDX를 사용하여 개발자가 문서 렌더링 방식을 완벽하게 제어할 수 있도록 합니다.
 
-먼저 기본값에서 Avatar 문서 생성을 제어하겠습니다. MDX 파일을`.storybook/main.js`에 등록합니다.
+Storybook 설치 절차에서 MDX 파일이 기본적으로 등록됩니다. `.storybook/main.js`는 다음과 같이 생겼습니다.
 
 ```javascript
 // .storybook/main.js
@@ -186,8 +161,8 @@ module.exports = {
     '@storybook/preset-create-react-app',
     '@storybook/addon-actions',
     '@storybook/addon-links',
-    '@storybook/addon-storysource',
-    '@storybook/addon-knobs',
+    '@storybook/addon-essentials',
+    '@storybook/preset-create-react-app',
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
   ],
@@ -196,21 +171,24 @@ module.exports = {
 
 새`src/Avatar.stories.mdx` 파일을 만들고 세부 정보를 제공합니다. `Avatar.stories.js` 파일을 제거하고 mdx 파일에 스토리를 다시 생성합니다.
 
+<!-- prettier-ignore-start -->
+
 ```javascript
 // src/Avatar.stories.mdx
 
-import { Meta, Story } from '@storybook/addon-docs/blocks';
-import { withKnobs, select, boolean } from '@storybook/addon-knobs';
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
 
 import { Avatar } from './Avatar';
 
-<Meta title="Design System|Avatar" component={Avatar} />
+<Meta title="Design System/Avatar" component={Avatar} />
 
 # Avatar
 
 ## 사용자 또는 조직을 나타내는 이미지를 표시합니다.
 
-특정 사용자에게 액션이나 콘텐츠를 제공하기 위해 Avatar를 사용합니다. Avatar를 사용할 때는 사용자 이름이 _항상_ Avatar의 옆이나 툴팁에 보입니다.
+특정 사용자에게 액션이나 콘텐츠를 제공하기 위해 Avatar를 사용합니다. 
+
+Avatar를 사용할 때는 사용자 이름이 _항상_ Avatar의 옆이나 툴팁에 보입니다.
 
 <Story name="standard">
   <Avatar
@@ -251,7 +229,9 @@ import { Avatar } from './Avatar';
 
 ### 기본값
 
-`src` prop에 이미지가 제공되지 않으면 Avatar는 이니셜을 표시합니다. Avatar가 이미지에 접근할 수 없는 상황은 지양해야 합니다.
+`src` prop에 이미지가 제공되지 않으면 Avatar는 이니셜을 표시합니다.
+
+Avatar가 이미지에 접근할 수 없는 상황은 지양해야 합니다.
 
 <Story name="initials">
   <div>
@@ -277,30 +257,35 @@ import { Avatar } from './Avatar';
 
 ### Playground
 
-Canvas 모드에서 Knobs 애드온으로 이 스토리를 실험해보세요.
+Canvas 탭에서 Controls 애드온으로 이 스토리를 실험해보세요.
 
-<Story name="knobs" parameters={{ decorators: [withKnobs] }}>
-  <Avatar
-    loading={boolean('Loading')}
-    size={select('Size', ['tiny', 'small', 'medium', 'large'])}
-    username="Dominic Nguyen"
-    src="https://avatars2.githubusercontent.com/u/263385"
-  />
-</Story>
+export const Template = (args) => <Avatar {...args} />
+<Canvas>
+  <Story name="controls" args={{
+    loading: false,
+    size: "tiny",
+    username: "Dominic Nguyen",
+    src: "https://avatars2.githubusercontent.com/u/263385"
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
 ```
+
+<!-- prettier-ignore-end -->
 
 스토리북에서 Avatar 컴포넌트의 "Docs" 탭은 MDX 페이지로 대체되었을 것입니다.
 
-![MDX로 생성한 스토리북 docs](/design-systems-for-developers/storybook-docs-mdx-initial.png)
+![MDX로 생성한 스토리북 docs](/design-systems-for-developers/storybook-docs-mdx-initial-6-0.png)
 
-스토리북은 대화식 미리 보기, props 테이블 등과 같은 미리 만들어진 컴포넌트인 "Doc Blocks"와 함께 제공됩니다. 기본적으로 자동 생성된 문서 페이지에 적용되어 있습니다. 그뿐만 아니라 개별 사용을 위해 추출할 수도 있습니다. 우리의 목표는 모든 것을 직접 다시 작업하지 않고 맞춤형 Avatar의 문서를 생성하는 것이므로, 가능한 곳에서는 Doc Blocks를 재사용하도록 합시다.
+스토리북은 대화식 미리 보기, 인자 테이블 등과 같은 미리 만들어진 컴포넌트인 [“Doc Blocks”](https://storybook.js.org/docs/react/writing-docs/doc-blocks)와 함께 제공됩니다. 기본적으로 자동 생성된 문서 페이지에 적용되어 있습니다. 그뿐만 아니라 개별 사용을 위해 추출할 수도 있습니다. 우리의 목표는 모든 것을 직접 다시 작업하지 않고 맞춤형 Avatar의 문서를 생성하는 것이므로, 가능한 곳에서는 Doc Blocks를 재사용하도록 합시다.
 
-`Props` doc block을 추가하고 초기 스토리를 `Preview`로 래핑 하겠습니다.
+[`ArgsTable`](https://storybook.js.org/docs/react/writing-docs/doc-blocks#mdx)과 doc block을 추가하고 초기 스토리를 `Preview`로 래핑 하겠습니다.
 
 ```javascript
 // src/Avatar.stories.mdx
 
-import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { Meta, Story, ArgsTable, Preview } from '@storybook/addon-docs/blocks';
 
 # …
 
@@ -314,10 +299,10 @@ import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
   </Story>
 </Preview>
 
-<Props of={Avatar} />
+<ArgsTable of={Avatar} />
 ```
 
-![doc blocks와 MDX로 만든 스토리북 문서](/design-systems-for-developers/storybook-docs-mdx-docblocks.png)
+![doc blocks와 MDX로 만든 스토리북 문서](/design-systems-for-developers/storybook-docs-mdx-docblocks-6-0.png)
 
 좋아요! 처음 시작했던 곳으로 돌아왔지만, 이전과는 다르게 콘텐츠의 내용과 순서를 완벽하게 제어할 수 있습니다. 자동화된 문서 생성의 이점은 우리가 Doc Blocks를 사용하고 있기 때문에 계속 누릴 수 있습니다.
 
@@ -328,7 +313,7 @@ Avatar의 문서를 유즈 케이스에 대한 노트를 통하여 맞춤형으�
 
 // Same content as before
 
-<Props of={Avatar} />
+<ArgsTable of={Avatar} />
 
 ## Usage
 
@@ -340,7 +325,7 @@ Avatar는 사람이나 조직을 나타내는 데 사용됩니다. Avatar는 기
 
 ```
 
-![사용법 정보가 포함된 MDX 용 스토리북 docs](/design-systems-for-developers/storybook-docs-mdx-usage.png)
+![사용법 정보가 포함된 MDX 용 스토리북 docs](/design-systems-for-developers/storybook-docs-mdx-usage-6-0.png)
 
 #### 맞춤 페이지
 
@@ -353,7 +338,7 @@ Avatar는 사람이나 조직을 나타내는 데 사용됩니다. Avatar는 기
 
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Design System|Introduction" />
+<Meta title="Design System/Introduction" />
 
 # 스토리북 디자인 시스템을 배우는 방법 소개
 
@@ -374,25 +359,21 @@ import { Meta } from '@storybook/addon-docs/blocks';
 module.exports = {
   // 스토리의 로드 순서를 변경합니다. Intro 페이지를 첫 번째로 로드하고,
   // * .stories.js | mdx로 끝나는 모든 파일을 자동으로 가져옵니다.
-  stories: ['../src/components/Intro.stories.mdx', '../src/**/*.stories.(js|mdx)'],
+  stories: [
+    '../src/components/Intro.stories.mdx',
+    '../src/**/*.stories.mdx',
+    '../src/**/*.stories.@(js|jsx|ts|tsx)',
+  ],
   addons: [
-    '@storybook/preset-create-react-app',
-    '@storybook/addon-actions',
     '@storybook/addon-links',
-    '@storybook/addon-storysource',
-    '@storybook/addon-knobs',
+    '@storybook/addon-essentials',
+    '@storybook/preset-create-react-app',
     '@storybook/addon-a11y',
-    '@storybook/addon-docs',
   ],
 };
 ```
 
-<div class="aside">
-<p> 여전히 <code>storiesOf</code> 형식을 사용 중인 경우 <code>./storybook/preview.js</code>를 약간 조정하고 이것들을 올바르게 표시하기 위해 <code>sortStories></code>함수를 추가해야 합니다.</p>
- <p> 자세한 내용은 <a href="https://storybook.js.org/docs/configurations/options-parameter/#sorting-stories">여기</a></p>에서 확인할 수 있습니다.
-</div>
-
-![소개 페이지가 포함 된 스토리북 문서](/design-systems-for-developers/storybook-docs-introduction.png)
+![소개 페이지가 포함 된 스토리북 문서](/design-systems-for-developers/storybook-docs-introduction-6-0.png)
 
 ## 온라인에 문서 게시
 
